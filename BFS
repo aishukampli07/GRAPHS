@@ -1,0 +1,69 @@
+import java.util.*;
+
+public class BFSGraph {
+    private int vertices; // Number of vertices
+    private LinkedList<Integer> adjList[]; // Adjacency list
+
+    // Constructor
+    public BFSGraph(int numVertices) {
+        vertices = numVertices;
+        adjList = new LinkedList[numVertices];
+        for (int i = 0; i < numVertices; i++) {
+            adjList[i] = new LinkedList<>();
+        }
+    }
+
+    // Method to add an edge to the graph
+    public void addEdge(int src, int dest) {
+        adjList[src].add(dest); // Add dest to src's list
+        adjList[dest].add(src); // Add src to dest's list (if undirected graph)
+    }
+
+    // Method to perform BFS
+    public void BFS(int startVertex) {
+        // Mark all the vertices as not visited (false)
+        boolean visited[] = new boolean[vertices];
+
+        // Create a queue for BFS
+        Queue<Integer> queue = new LinkedList<>();
+
+        // Mark the current node as visited and enqueue it
+        visited[startVertex] = true;
+        queue.add(startVertex);
+
+        while (!queue.isEmpty()) {
+            // Dequeue a vertex from queue and print it
+            int vertex = queue.poll();
+            System.out.print(vertex + " ");
+
+            // Get all adjacent vertices of the dequeued vertex
+            // If an adjacent vertex has not been visited, mark it visited and enqueue it
+            for (Integer adj : adjList[vertex]) {
+                if (!visited[adj]) {
+                    visited[adj] = true;
+                    queue.add(adj);
+                }
+            }
+        }
+    }
+
+    // Main method to test the BFS
+    public static void main(String[] args) {
+        BFSGraph graph = new BFSGraph(6); // Create a graph with 6 vertices
+
+        // Add edges to the graph
+        graph.addEdge(0, 1);
+        graph.addEdge(0, 2);
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(2, 4);
+        graph.addEdge(3, 4);
+        graph.addEdge(4, 5);
+
+        System.out.println("BFS starting from vertex 0:");
+        graph.BFS(0); // Perform BFS starting from vertex 0
+    }
+}
+
+
+
